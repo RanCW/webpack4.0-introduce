@@ -1,6 +1,10 @@
-## 初识webpack
+## 初识webpack4.0
 ### 1.什么是webpack？
-  webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。
+  webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。   
+  使用webpack ：
+  * 在项目文件夹目录下执行：npm init -y 生成package.json文件，当然自己创建也可以
+  * 安装webpack： npm install --save-dev webpack webpack-cli，
+  注意webpack4.0一定要安装webpack-cli
 ### 2.webpack配置项组成
   * mode —— 环境
   * entry —— 打包的入口文件
@@ -81,14 +85,14 @@
     },
     module:{
       rules:[
-        {
-          test: /\.js$/,
-          use:[
-            {
-              loader:'babel-loader'
-            }
-          ]
-        }
+      + {
+      +   test: /\.js$/,
+      +   use:[
+      +     {
+      +       loader:'babel-loader'
+      +     }
+      +   ]
+      + }
       ]
     }
   }
@@ -113,27 +117,131 @@
         },
         module:{
           rules:[
-            {
-              test: /\.js$/,
-              use:[
-                {
-                  loader:'babel-loader'
-                }
-              ]
-            },
-            {
-              test:/\.css/,
-              use:[
-                'style-loader',
-                'css-loader'
-              ]
-            }
+          + {
+          +   test:/\.css/,
+          +   use:[
+          +     'style-loader',
+          +     'css-loader'
+          +   ]
+          + }
           ]
         }
       }
 ```
  * less-loader 
-    解析 Less 和 SaSS
- #### 2.5 plugins
+    将less转换成css   
+    安装：npm install --save-dev less-loader less
+    ```javascript
+      module.exports = {
+        entry : './src/index.js',
+        output:{
+          filename: 'bundle.js',
+          path: __dirname + '/dist'
+        },
+        module:{
+          rules:[
+          + {
+          +   test: /\.less$/,
+          +   use:[
+          +     {
+          +       loader:'style-loader',
+          +     },
+          +     {
+          +       loader:'css-loader',
+          +     },
+          +     {
+          +       loader:'less-loader',
+          +     }
+          +   ]
+          + },
+          ]
+        }
+      }
+    ```
+  * file-loader   
+    file-loader 的作用主要是解析资源文件例如图片、字体文件   
+    安装：npm install --save-dev file-loader   
+    ```javascript
+      module.exports = {
+        entry : './src/index.js',
+        output:{
+          filename: 'bundle.js',
+          path: __dirname + '/dist'
+        },
+        module:{
+          rules:[
+          + {
+          +   test: /\.(png|jpg|gif|svg|woff|woff2|eot|ttf|otf)$/,
+          +   use:[
+          +     {
+          +       loader:'file-loader',
+          +     },
+          +  ]
+          + },
+          ]
+        }
+      }
+    ```
+    同样处理图片的时候还可以使用url-loader，url-loader与file-loader的区别就是url-loader可以在文件大小(单位byte)低于指定值的时候返回一个base64格式的DataURL,
+    安装：npm install --save-dev url-loader   
+    使用如下：
+    ```javascript
+      module.exports = {
+        entry : './src/index.js',
+        output:{
+          filename: 'bundle.js',
+          path: __dirname + '/dist'
+        },
+        module:{
+          rules:[
+          +  {
+          +   test: /\.(png|jpg|gif|svg)$/,
+          +   use:[
+          +     {
+          +       loader:'file-loader',
+          +       options: {
+          +         limit: 8192
+          +       }
+          +     },
+          +   ]
+          + },
+          ]
+        }
+      }
+    ```
+ #### 2.5 plugins   
+ 在插件中我们使用的有很多，这里就先例举一个很简单的自动生成html文件的插件
+ * html-webpack-plugin   
+ 该插件将为你生成一个 HTML5 文件， 其中包括使用 script 标签的 body 中的所有 webpack 包。 只需添加插件到你的 webpack 配置。
+ 安装：    
+ 
+ 配置如下：
+ ```javascript
+  module.exports = {
+        entry : './src/index.js',
+        output:{
+          filename: 'bundle.js',
+          path: __dirname + '/dist'
+        },
+    +  plugins:[
+    +     new HtmlWebpackPlugins({
+    +       template: 'index.html',
+    +       filename: 'index.html'
+    +     })
+    +   ]
+    + }
+ ```
+ 
+ 以上对于webpack4.0最基本的用法就已经讲差不多了，完整的示例可以访问 [示例GitHub地址](https://github.com/RanCW/webpack4.0-introduce)
+
+ 未完待续、、、、
+
+ 即将奉上下一章《第二章：探索webpack》
+
+参考文献：
+
+ [webpack中文网](https://www.webpackjs.com/concepts/)
+
+ [webpack官网](https://webpack.js.org/concepts/)
 
   
