@@ -128,10 +128,11 @@
         }
       }
 ```
- * less-loader 
+ * less-loader    
     将less转换成css   
-    安装：npm install --save-dev less-loader less
-    ```javascript
+    安装：npm install --save-dev less-loader less      
+
+```javascript
       module.exports = {
         entry : './src/index.js',
         output:{
@@ -157,11 +158,13 @@
           ]
         }
       }
-    ```
+```   
+
   * file-loader   
     file-loader 的作用主要是解析资源文件例如图片、字体文件   
     安装：npm install --save-dev file-loader   
-    ```javascript
+
+```javascript
       module.exports = {
         entry : './src/index.js',
         output:{
@@ -181,11 +184,16 @@
           ]
         }
       }
-    ```
-    同样处理图片的时候还可以使用url-loader，url-loader与file-loader的区别就是url-loader可以在文件大小(单位byte)低于指定值的时候返回一个base64格式的DataURL,
-    安装：npm install --save-dev url-loader   
-    使用如下：
-    ```javascript
+```   
+
+
+  同样处理图片的时候还可以使用url-loader，url-loader与file-loader的区别就是url-loader可以在文件大小(单位byte)低于指定值的时候返回一个base64格式的DataURL,
+    安装：npm install --save-dev url-loader      
+    使用如下：   
+
+
+
+```javascript
       module.exports = {
         entry : './src/index.js',
         output:{
@@ -207,8 +215,10 @@
           + },
           ]
         }
-      }
-    ```
+      }   
+
+  ```   
+
  #### 2.5 plugins   
  在插件中我们使用的有很多，这里就先例举一个很简单的自动生成html文件的插件
  * html-webpack-plugin   
